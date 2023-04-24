@@ -394,3 +394,17 @@ Azul: 34
 Roxo: 35
 Ciano: 36
 
+## Memória RAM
+
+- Ver comsumo:
+```bash
+free -h
+```
+
+- Exibir a porcentagem de memória RAM utilizada no sistema:
+
+```bash
+free | grep Mem | awk '{print $3/$2 * 100.0}'
+
+```
+
