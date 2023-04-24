@@ -98,14 +98,71 @@ sudo firewall-cmd --add-service=http --add-service=https --permanent
 
 
 ```
+
+- Ou Defina a política padrão para permitir somente conexões de saída com o seguinte comando:
+
+```bash
+sudo firewall-cmd --set-default-zone=drop
+
+```
+
+Este comando definirá a política padrão para "drop", o que significa que todas as conexões de entrada serão bloqueadas e todas as conexões de saída serão permitidas, a menos que sejam explicitamente permitidas.
+
+- Permita o tráfego de entrada apenas para portas específicas, usando o seguinte comando:
+
+```bash
+sudo firewall-cmd --add-port=PORTA/tcp --permanent
+```
+Substitua "PORTA" pelo número da porta que você deseja permitir. Isso permitirá o tráfego de entrada para a porta especificada.
+
 - Aplique as novas regras do firewall usando o seguinte comando:
   
 ```bash
 sudo firewall-cmd --reload
 
+```
+
+- Verifique as configurações do FirewallD com o seguinte comando:
+
+```bash
+sudo firewall-cmd --list-all
+
+```
+Isso mostrará todas as regras definidas atualmente no FirewallD.
+
+- Reinicie o FirewallD para aplicar as alterações com o seguinte comando:
+  
+```bash
+sudo systemctl restart firewalld
+
+```
+- Permitir o tráfego de entrada, mas solicitar a sua permissão para cada conexão, você pode usar a zona "public" do FirewallD. Você pode seguir os seguintes passos:
+
+```bash
+sudo firewall-cmd --set-default-zone=public
 
 ```
 
+- Crie uma regra para permitir conexões de entrada com o seguinte comando:
+
+```bash
+sudo firewall-cmd --add-rich-rule='rule family="ipv4" source address="0.0.0.0/0" port port=0 protocol="tcp" accept'
+
+```
+
+Esta regra permitirá todas as conexões de entrada na porta 0 (todas as portas) para qualquer endereço IP.
+
+- Reinicie o FirewallD para aplicar as alterações com o seguinte comando:
+
+```bash
+sudo systemctl restart firewalld
+
+```
+Agora, o FirewallD permitirá conexões de entrada, mas solicitará sua permissão para cada conexão. Quando uma conexão de entrada for detectada, o FirewallD exibirá uma mensagem no terminal e pedirá que você confirme se deseja permitir a conexão.
+
+Cada vez que uma nova conexão de entrada for detectada, o FirewallD solicitará novamente sua permissão. Se você deseja permitir a conexão permanentemente, poderá adicionar uma regra permanente ao FirewallD usando o comando --add-rich-rule e a opção --permanent.
+
+Defina a política padrão para a zona "public" com o seguinte comando:
 ## Aplicar a autenticação de dois fatores (2FA) no Linux server.
 
 - Instale o pacote de autenticação de dois fatores google-authenticator usando o gerenciador de pacotes da distribuição Linux, Debian/Ubuntu, execute o seguinte comando:
