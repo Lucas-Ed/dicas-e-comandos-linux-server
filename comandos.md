@@ -1,4 +1,4 @@
-Dicas e comandos Linux server
+# Dicas e comandos Linux server
 
 - Primeiro acesso via PuTTY:
 
@@ -352,6 +352,45 @@ whoami
 ```bash
 service ssh restart
 ```
+## Alterar a cor das letras do terminal
 
+- Abra o arquivo .bashrc no seu editor de texto preferido, como o nano:
 
+```bash
+nano ~/.bashrc
+```
+
+- Role para baixo até encontrar a 2° linha que começa com PS1=. Essa linha define o prompt do seu terminal. O prompt padrão no Ubuntu Server geralmente se parece com isso:
+
+```bash
+PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+```
+
+- Adicione um código de cor ANSI ao prompt. Por exemplo, para mudar a cor para verde, adicione o seguinte código antes do caractere $:
+
+```bash
+\[\033[32m\]$
+```
+- A linha deve ficar assim:
+
+```bash
+PS1='${debian_chroot:+($debian_chroot)}\[\033[32m\]\u@\h:\w\$\[\033[0m\] '
+
+```
+
+Salve e saia do arquivo. No nano, você pode fazer isso pressionando Ctrl+X, Y e Enter.
+
+- Recarregue o arquivo .bashrc para aplicar as alterações:
+
+```bash
+source ~/.bashrc
+```
+Agora, o prompt do seu terminal deve estar verde. Você pode mudar a cor para outras cores, substituindo 32 pelo código de cor ANSI correspondente. Aqui está uma lista de alguns códigos de cor comuns:
+
+Vermelho: 31
+Verde: 32
+Amarelo: 33
+Azul: 34
+Roxo: 35
+Ciano: 36
 
