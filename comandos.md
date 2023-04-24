@@ -30,6 +30,22 @@ sudo nano /etc/systemd/logind.conf
 
 ```
 
+- Procure a linha que começa com "#IdleAction" e remova o "#" para descomentar a linha. Em seguida, altere o tempo:
+
+```bash
+IdleAction=ignore
+
+```
+
+- Pressione Ctrl + X, em seguida Y e Enter para salvar as alterações e sair; Reinicie o serviço do systemd-logind com o seguinte comando:
+
+```bash
+sudo systemctl restart systemd-logind.service
+
+
+```
+Pronto! Agora, o sistema não desligará mais automaticamente por inatividade.
+
 - Desligar o server:
 
 ```bash
