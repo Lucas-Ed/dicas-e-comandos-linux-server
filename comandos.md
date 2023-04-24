@@ -284,4 +284,17 @@ locale
 Isso exibirá a configuração de idioma atual. Certifique-se de reiniciar o sistema para que as alterações entrem em vigor.
 
 
+- Mostrar usuário:
+
+```bash
+whoami
+```
+
+- Restartar ssh:
+
+```bash
+service ssh restart
+```
+
+
 
