@@ -142,3 +142,146 @@ Lembre-se de armazenar a chave secreta em um local seguro, pois ela é necessár
 - criar uma chave de backup em caso de perda ou roubo do dispositivo principal 
 
 
+## Navegação entre diretórios
+
+
+- Ver o diretório atual:
+
+```bash
+pwd
+
+```
+- Navegar entre outros diretórios: 
+
+```bash
+
+cd /home/usuario/musicas
+
+```
+
+- Voltar ao diretório anterior:
+
+```bash
+
+cd ..
+
+```
+
+## Login e senha do servidor
+
+- Alterar a senha de login no servidor :
+
+```bash
+passwd
+
+```
+após isso digite a nova senha 2 vezes.
+
+- Para alterar o nome de usuário do usuário atual para o novo nome de usuário:
+
+```bash
+usermod -l novo_nome_usuario nome_usuario_atual
+
+```
+
+- Mover o diretório home do usuário atual para o novo diretório home do usuário com o novo nome de usuário:
+
+```bash
+usermod -d /home/novo_nome_usuario -m novo_nome_usuario
+
+```
+
+- Outro método, se o nome de usuário atual é "usuario1" e o novo nome de usuário desejado é "usuario2", você pode usar os seguintes comandos:
+
+```bash
+
+sudo usermod -l usuario2 usuario1
+sudo usermod -d /home/usuario2 -m usuario2
+
+```
+
+## Verificação de portas abertas no sistema.
+
+- Para exibir as portas TCP e UDP abertas, abra o terminal e digite o seguinte comando:
+
+```bash
+sudo netstat -tulpn
+
+```
+
+Este comando exibirá uma lista de todas as conexões TCP e UDP abertas no sistema, juntamente com os processos que estão ouvindo ou usando essas portas.
+
+A opção -t exibe as conexões TCP, a opção -u exibe as conexões UDP, a opção -l exibe as conexões de escuta e a opção -p exibe o nome e o ID do processo associado a cada conexão.
+
+Para exibir apenas as portas abertas em um formato mais legível, você pode filtrar a saída do netstat usando o comando grep. Por exemplo, para exibir apenas as portas TCP abertas, você pode usar o seguinte comando:
+
+```bash
+
+sudo netstat -tulpn | grep LISTEN
+
+```
+Este comando exibirá apenas as conexões TCP de escuta, que indicam as portas TCP abertas no sistema.
+
+## Verificar temperatura do hardware.
+
+- Atualize o sistema:
+
+```bash
+sudo apt-get update
+
+```
+
+-  instale o pacote lm-sensors digitando o seguinte comando:
+
+```bash
+sudo apt-get install lm-sensors
+
+```
+
+- execute o comando abaixo para detectar sensores de temperatura:
+
+```bash
+sudo sensors-detect
+
+```
+
+- Durante a execução do comando acima, você será solicitado a responder algumas perguntas. Aceite as opções padrão (pressione Enter) para todas as perguntas.
+
+Por fim, execute o comando abaixo para exibir as informações de temperatura:
+
+```bash
+sensors
+
+```
+
+## Alterar a linguagem do Ubuntu Server para Português do Brasil.
+
+- instale o pacote "language-pack-pt" digitando o seguinte comando e pressionando Enter:
+  
+```bash
+sudo apt-get install language-pack-pt
+
+```
+- Após a instalação, execute o comando abaixo para configurar a linguagem padrão do sistema para Português do Brasil:
+
+```bash
+sudo update-locale LANG=pt_BR.UTF-8
+
+```
+
+- Reinicie o sistema digitando o seguinte comando e pressionando Enter:
+
+```bash
+sudo reboot
+```
+
+- Após reiniciar, o idioma do sistema será alterado para Português do Brasil. Verifique se a mudança foi aplicada digitando o seguinte comando no terminal:
+
+```bash
+locale
+```
+
+Isso exibirá a configuração de idioma atual. Certifique-se de reiniciar o sistema para que as alterações entrem em vigor.
+
+
+
