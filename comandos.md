@@ -169,7 +169,7 @@ Cada vez que uma nova conexão de entrada for detectada, o FirewallD solicitará
 - Instale o pacote de autenticação de dois fatores google-authenticator usando o gerenciador de pacotes da distribuição Linux, Debian/Ubuntu, execute o seguinte comando:
 
 ```bash
-sudo apt-get install libpam-google-authenticator
+sudo apt install libpam-google-authenticator
 ```
 
 - Vá para o arquivo:
@@ -177,7 +177,6 @@ sudo apt-get install libpam-google-authenticator
 ```bash
 sudo nano /etc/pam.d/common-auth
 ```
-
 
 - No arquivo, abaixo de (the "primary" block), coloque:
   
@@ -429,3 +428,8 @@ free | grep Mem | awk '{print $3/$2 * 100.0}'
 
 ```
 
+## Alterar data e hora, com fuso horário de são paulo.
+
+```bash
+sudo timedatectl set-timezone America/Sao_Paulo
+```
