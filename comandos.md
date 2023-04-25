@@ -138,6 +138,8 @@ sudo systemctl restart firewalld
 ```
 - Permitir o tráfego de entrada, mas solicitar a sua permissão para cada conexão, você pode usar a zona "public" do FirewallD. Você pode seguir os seguintes passos:
 
+- Defina a política padrão para a zona "public" com o seguinte comando:
+
 ```bash
 sudo firewall-cmd --set-default-zone=public
 
@@ -162,25 +164,46 @@ Agora, o FirewallD permitirá conexões de entrada, mas solicitará sua permiss�
 
 Cada vez que uma nova conexão de entrada for detectada, o FirewallD solicitará novamente sua permissão. Se você deseja permitir a conexão permanentemente, poderá adicionar uma regra permanente ao FirewallD usando o comando --add-rich-rule e a opção --permanent.
 
-Defina a política padrão para a zona "public" com o seguinte comando:
 ## Aplicar a autenticação de dois fatores (2FA) no Linux server.
 
 - Instale o pacote de autenticação de dois fatores google-authenticator usando o gerenciador de pacotes da distribuição Linux, Debian/Ubuntu, execute o seguinte comando:
 
 ```bash
 sudo apt-get install libpam-google-authenticator
+```
+
+- Vá para o arquivo:
+
+```bash
+sudo nano /etc/pam.d/common-auth
+```
 
 
+- No arquivo, abaixo de (the "primary" block), coloque:
+  
+```bash
+auth required pam_google_authenticator.so
 ```
 
 Execute o comando google-authenticator para configurar o Google Authenticator no seu servidor. Ele irá gerar um código QR e uma chave secreta que você deve armazenar com segurança. Escaneie o código QR usando um aplicativo de autenticação de dois fatores em seu smartphone, como o Google Authenticator ou o Authy, e salve a chave secreta.
 
-Edite o arquivo /etc/pam.d/sshd para incluir a autenticação de dois fatores. Abra o arquivo /etc/pam.d/sshd em um editor de texto e adicione a seguinte linha no início do arquivo:
+- Vá para o arquivo:
 
 ```bash
-auth required pam_google_authenticator.so
-
+sudo nano /etc/pam.d/sshd
 ```
+- No arquivo, abaixo de # Read enviroment variables from /etc/enviroment and, coloque:
+  
+```bash
+auth required pam_google_authenticator.so
+```
+- Vá para o arquivo:
+
+```bash
+sudo nano /etc/ssh/sshd_config
+```
+
+Altere o ChallengeResponseAuthenticaion de no pra yes.
 
 Salve e feche o arquivo.
 
@@ -188,15 +211,13 @@ Reinicie o serviço sshd para aplicar as alterações:
 
 ```bash
 sudo systemctl restart sshd
-
-
 ```
 
 Teste a autenticação de dois fatores: Tente fazer login no servidor via SSH usando suas credenciais de login regulares. Depois de inserir sua senha, você será solicitado a inserir um código de autenticação gerado pelo aplicativo Google Authenticator. Insira o código e você deverá ter acesso ao servidor.
 
 Lembre-se de armazenar a chave secreta em um local seguro, pois ela é necessária para configurar o Google Authenticator em um novo dispositivo. Além disso, é importante criar uma chave de backup em caso de perda ou roubo do dispositivo principal.
 
-- criar uma chave de backup em caso de perda ou roubo do dispositivo principal 
+- [ Video de referência](https://bit.ly/3NcHl3g) 
 
 
 ## Navegação entre diretórios
