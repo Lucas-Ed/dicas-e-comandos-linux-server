@@ -75,5 +75,24 @@ sudo fdisk -l
 ```bash
 sudo umbrel stop
 ```
+
+- Modificar salvamento da blockchain da raíz para o SSD:
+
+Dentro da pasta umbrel vá até o diretório /app-data/bitcoin, entre no arquivo exports.sh, modifique a linha:
+```bash
+export app_bitcoin_data_dir="${exports_app_dir}/data/bitcoin"
+```
+Para:
+```bash
+export app_bitcoin_data_dir="/mnt/ssd/data/bitcoin"
+```
+- Reinicie o umbrel com ocomando:
+```bash
+sudo systemctl restart umbrel
+```
 - Algumas questões no forúm.
 https://bit.ly/40LTHCz
+
+http://192.168.0.4/start
+
+http://192.168.0.4:2100/"

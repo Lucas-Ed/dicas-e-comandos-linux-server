@@ -243,6 +243,11 @@ cd /home/usuario/musicas
 cd ..
 
 ```
+- Abrir um arquivo
+```bash
+nano nome-do-arquivo
+
+```
 
 ## Login e senha do servidor
 
