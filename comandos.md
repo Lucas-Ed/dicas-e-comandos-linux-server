@@ -333,7 +333,6 @@ Por fim, execute o comando abaixo para exibir as informações de temperatura:
 
 ```bash
 sensors
-
 ```
 
 ## Alterar a linguagem do Ubuntu Server para Português do Brasil.

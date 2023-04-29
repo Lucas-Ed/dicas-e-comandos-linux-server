@@ -1,4 +1,9 @@
 # Os comandos abaixo vão instalar todas as dependências necessárias:
+
+```bash
+sudo apt-get install curl
+```
+
 ```bash
 sudo apt-get install fswatch jq rsync curl git
 ```
@@ -17,6 +22,8 @@ echo  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/dock
 sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io -y
 sudo systemctl status docker
+// iniciar caso não esteje
+sudo systemctl start docker
 sudo apt install docker-compose
 ```
 
@@ -38,9 +45,6 @@ cd umbrel/
 ```
 
 ```bash
-sudo apt-get install curl
-```
-```bash
 sudo apt-get update
 sudo apt-get install snapd
 sudo snap install yq
@@ -53,6 +57,15 @@ sudo ln -s /usr/bin/envsubst /usr/local/bin/envsubst
 ```bash
 curl -L https://github.com/getumbrel/umbrel/archive/v0.5.3.tar.gz | tar -xz --strip-components=1
 ```
+- Instalação direto no SSD:
+```bash
+curl -L https://github.com/getumbrel/umbrel/archive/v0.5.3.tar.gz | tar -xz --strip-components=1 -C /media/user/SSDexterno/umbrel
+```
+ou
+```bash
+curl -L https://umbrel.sh | bash -s -- --install-path path/to/external/drive
+```
+
 - Para iniciar o serviço:
 ```bash
 sudo ./scripts/start
@@ -173,13 +186,6 @@ Agora, o SSD externo será montado automaticamente no diretório que você espec
 
 ---
 
-- Parar o serviço Umbrel:
-```bash
-sudo umbrel stop
-```
-- Saber o UUID do do SSD:
-  
-  blkid
 - Modificar salvamento da blockchain da raíz para o SSD:
 
 Dentro da pasta umbrel vá até o diretório /app-data/bitcoin, entre no arquivo exports.sh, modifique a linha:
@@ -199,7 +205,30 @@ sudo systemctl restart umbrel
 https://bit.ly/40LTHCz
 
 ---
+
+## Permissões
+
+Primeiro seu usuário 
+Segundo número grupo dele
+Terceiro outros.
+
+
+0 = sem permissão;
+1 = somente execução;
+2 = somente gravar;
+3 = gravar e executar;
+4 = somente ler;
+5 = ler e executar;
+6 = ler e gravar;
+7 = ler, executar e gravar.
+
+Chmod 777 você vai liberar permissão pra todos usuários resumindo
+---
 ## Outros comandos
+- Parar o serviço Umbrel:
+```bash
+sudo umbrel stop
+```
 
 - Descobrir o UUID dos discos conectados:
 
@@ -207,13 +236,24 @@ https://bit.ly/40LTHCz
 blkid
 ```
 Você deverá ver: /dev/sda1: UUID="28ff522c-46c5-486e-ad59-aaba3ee8d879"
+
 - Instalar o umbrell direto no HD/SSD:
 
 ```bash
 https://umbrel.sh | bash -s -- --install-path path/to/external/drive
 ```
 
-- Instalação direto no SSD:
+- Verificar espaço ocupado do SSD:
 ```bash
-curl -L https://github.com/getumbrel/umbrel/archive/v0.5.3.tar.gz | tar -xz --strip-components=1 -C /media/user/SSDexterno/umbrel
+df
 ```
+
+- Mostrar as permissões dos diretórios e arquivos:
+```bash
+Ls -l
+//é pra m
+```
+
+
+
+
