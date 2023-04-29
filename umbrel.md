@@ -206,6 +206,7 @@ https://bit.ly/40LTHCz
 ```bash
 blkid
 ```
+Você deverá ver: /dev/sda1: UUID="28ff522c-46c5-486e-ad59-aaba3ee8d879"
 - Instalar o umbrell direto no HD/SSD:
 
 ```bash
