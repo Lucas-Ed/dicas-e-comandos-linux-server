@@ -70,6 +70,42 @@ http://orangepi5.local
 ```bash
 sudo fdisk -l
 ```
+## Formatar SSD pelo terminal
+
+- Desmonte o dispositivo se ele já estiver montado com o comando "umount". Por exemplo, se o seu dispositivo for /dev/sda1, você pode usar o seguinte comando:
+```bash
+sudo umount /dev/sda1
+```
+- Use o comando "fdisk" para criar uma nova tabela de partições no SSD. Este comando irá excluir todas as partições existentes e criar uma nova tabela vazia. Certifique-se de selecionar o dispositivo correto antes de executar este comando. Por exemplo, se o seu dispositivo for /dev/sda, você pode usar o seguinte comando:
+```bash
+sudo fdisk /dev/sda
+
+```
+
+Pressione a letra "o" para criar uma nova tabela de partições do tipo DOS.
+
+Pressione a letra "n" para criar uma nova partição.
+
+Escolha o tipo de partição que você deseja criar. Por exemplo, se você quiser criar uma partição do tipo "Linux filesystem", escolha o tipo "83".
+
+Defina o tamanho da partição e sua posição na tabela de partições.
+
+Salve as alterações na tabela de partições usando o comando "w".
+
+Crie um novo sistema de arquivos no SSD usando o comando "mkfs". Por exemplo, se você quiser criar um sistema de arquivos ext4, você pode usar o seguinte comando:
+
+```bash
+sudo mkfs.ext4 /dev/sda1
+
+```
+O seu SSD agora está formatado e pronto para uso. Você pode montá-lo em um diretório de sua escolha usando o comando "mount". Por exemplo, se você quiser montar o dispositivo em "/mnt/ssd", você pode usar o seguinte comando:
+
+```bash
+sudo mount /dev/sda1 /mnt/ssd
+```
+Lembre-se de substituir "/dev/sda1" pelo dispositivo correto que você quer formatar e montar, e "/mnt/ssd" pelo diretório de sua escolha para montar o dispositivo. Tenha cuidado ao executar esses comandos, pois eles podem excluir dados existentes em seu dispositivo.
+
+Para sair use o w
 
 - Parar o serviço Umbrel:
 ```bash
@@ -84,15 +120,12 @@ export app_bitcoin_data_dir="${exports_app_dir}/data/bitcoin"
 ```
 Para:
 ```bash
-export app_bitcoin_data_dir="/mnt/ssd/data/bitcoin"
+export app_bitcoin_data_dir="/dev/ssd1/data/bitcoin"
 ```
 - Reinicie o umbrel com ocomando:
 ```bash
 sudo systemctl restart umbrel
 ```
+
 - Algumas questões no forúm.
 https://bit.ly/40LTHCz
-
-http://192.168.0.4/start
-
-http://192.168.0.4:2100/"
