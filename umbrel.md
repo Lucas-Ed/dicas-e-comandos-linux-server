@@ -70,48 +70,116 @@ http://orangepi5.local
 ```bash
 sudo fdisk -l
 ```
+---
 ## Formatar SSD pelo terminal
 
-- Desmonte o dispositivo se ele já estiver montado com o comando "umount". Por exemplo, se o seu dispositivo for /dev/sda1, você pode usar o seguinte comando:
+- Abra um terminal e verifique se o SSD está listado usando o seguinte comando:
+  
+```bash
+sudo fdisk -l
+
+```
+
+- Isso mostrará uma lista de dispositivos de armazenamento conectados ao sistema, incluindo o SSD.
+
+- Passo 3: Use o comando "umount" para desmontar o SSD antes de formatá-lo. Isso garantirá que nenhum processo esteja usando o dispositivo no momento da formatação. O comando "umount" é usado da seguinte maneira:
+
+```bash
+sudo umount /dev/<device>
+```
+
+- Substitua "<device>" pelo caminho correto do dispositivo listado no passo 2. Por exemplo, se o SSD estiver listado como "/dev/sda1", o comando seria:
+
 ```bash
 sudo umount /dev/sda1
 ```
-- Use o comando "fdisk" para criar uma nova tabela de partições no SSD. Este comando irá excluir todas as partições existentes e criar uma nova tabela vazia. Certifique-se de selecionar o dispositivo correto antes de executar este comando. Por exemplo, se o seu dispositivo for /dev/sda, você pode usar o seguinte comando:
+
+- Passo 4: Use o comando "mkfs" para formatar o SSD. Para armazenar a blockchain do nó Bitcoin, recomenda-se usar o sistema de arquivos "ext4". O comando para formatar o SSD em "ext4" é:
+
 ```bash
-sudo fdisk /dev/sda
-
+sudo mkfs.ext4 /dev/<device>
 ```
-
-Pressione a letra "o" para criar uma nova tabela de partições do tipo DOS.
-
-Pressione a letra "n" para criar uma nova partição.
-
-Escolha o tipo de partição que você deseja criar. Por exemplo, se você quiser criar uma partição do tipo "Linux filesystem", escolha o tipo "83".
-
-Defina o tamanho da partição e sua posição na tabela de partições.
-
-Salve as alterações na tabela de partições usando o comando "w".
-
-Crie um novo sistema de arquivos no SSD usando o comando "mkfs". Por exemplo, se você quiser criar um sistema de arquivos ext4, você pode usar o seguinte comando:
+- Substitua "<device>" pelo caminho correto do dispositivo listado no passo 2. Por exemplo, se o SSD estiver listado como "/dev/sdb1", o comando seria:
 
 ```bash
 sudo mkfs.ext4 /dev/sda1
-
 ```
-O seu SSD agora está formatado e pronto para uso. Você pode montá-lo em um diretório de sua escolha usando o comando "mount". Por exemplo, se você quiser montar o dispositivo em "/mnt/ssd", você pode usar o seguinte comando:
+
+- Passo 5: Monte o SSD formatado em um diretório de sua escolha. Crie um diretório para montar o SSD usando o seguinte comando:
 
 ```bash
-sudo mount /dev/sda1 /mnt/ssd
+sudo mkdir /mnt/<directory>
 ```
-Lembre-se de substituir "/dev/sda1" pelo dispositivo correto que você quer formatar e montar, e "/mnt/ssd" pelo diretório de sua escolha para montar o dispositivo. Tenha cuidado ao executar esses comandos, pois eles podem excluir dados existentes em seu dispositivo.
 
-Para sair use o w
+- Substitua "<directory>" pelo nome do diretório que você deseja criar. Por exemplo, se você quiser criar um diretório chamado "bitcoin-blockchain", o comando seria:
+
+```bash
+sudo mkdir /mnt/blockchain
+```
+
+- Passo 6: Monte o SSD no diretório que você acabou de criar usando o seguinte comando:
+
+```bash
+sudo mount /dev/<device> /mnt/<directory>
+```
+
+- Substitua "<device>" pelo caminho correto do dispositivo listado no passo 2 e "<directory>" pelo diretório que você criou no passo 5. Por exemplo, se o SSD estiver listado como "/dev/sdb1" e você criou um diretório chamado "bitcoin-blockchain", o comando seria:
+
+```bash
+sudo mount /dev/sda1 /mnt/blockchain
+```
+- Passo 7: Verifique se o SSD está montado corretamente usando o comando "df -h". Isso mostrará uma lista de todos os sistemas de arquivos montados no sistema. Certifique-se de que o SSD esteja listado e que o tamanho do espaço livre seja correto.
+
+- Agora o SSD externo está formatado e pronto para ser usado para armazenar a blockchain do nó Bitcoin. Certifique-se de que o nó Bitcoin esteja configurado para usar o novo diretório de armazenamento.
+
+- Configurar para ser montado na inicialização do ubuntu:
+
+- Passo 1: Conecte o SSD externo ao seu Orange Pi 5 e execute o comando abaixo para verificar se ele foi detectado corretamente pelo sistema:
+
+```bash
+sudo fdisk -l
+```
+- Passo 2: Anote o caminho do dispositivo do SSD externo. Por exemplo, o caminho pode ser /dev/sda1.
+
+- Passo 3: Crie o diretório no qual você deseja que o SSD seja montado. Por exemplo, se você deseja montar o SSD em /mnt/bitcoin-blockchain, execute o comando abaixo:
+
+```bash
+sudo mkdir /mnt/blockchain
+```
+- Passo 4: Abra o arquivo /etc/fstab com um editor de texto, como o nano, usando o seguinte comando:
+
+```bash
+sudo nano /etc/fstab
+```
+- Passo 5: Adicione uma nova linha ao arquivo /etc/fstab, usando o caminho do dispositivo e o diretório que você criou no Passo 3, no seguinte formato:
+
+```bash
+/dev/<device> /mnt/<directory> ext4 defaults 0 2
+```
+- Substitua <device> pelo caminho correto do dispositivo e <directory> pelo diretório que você criou no Passo 3. Por exemplo, se o SSD estiver listado como /dev/sda1 e você criou um diretório chamado bitcoin-blockchain, a linha seria:
+
+```bash
+/dev/sda1 /mnt/blockchain ext4 defaults 0 2
+```
+
+- Passo 6: Salve e feche o arquivo /etc/fstab.
+
+- Passo 7: Execute o seguinte comando para montar o SSD externo no diretório que você criou:
+
+```bash
+sudo mount -a
+```
+Agora, o SSD externo será montado automaticamente no diretório que você especificou sempre que o sistema operacional for iniciado.
+
+---
 
 - Parar o serviço Umbrel:
 ```bash
 sudo umbrel stop
 ```
-
+- Saber o UUID do do SSD:
+  
+  blkid
 - Modificar salvamento da blockchain da raíz para o SSD:
 
 Dentro da pasta umbrel vá até o diretório /app-data/bitcoin, entre no arquivo exports.sh, modifique a linha:
@@ -129,3 +197,22 @@ sudo systemctl restart umbrel
 
 - Algumas questões no forúm.
 https://bit.ly/40LTHCz
+
+---
+## Outros comandos
+
+- Descobrir o UUID dos discos conectados:
+
+```bash
+blkid
+```
+- Instalar o umbrell direto no HD/SSD:
+
+```bash
+https://umbrel.sh | bash -s -- --install-path path/to/external/drive
+```
+
+- Instalação direto no SSD:
+```bash
+curl -L https://github.com/getumbrel/umbrel/archive/v0.5.3.tar.gz | tar -xz --strip-components=1 -C /media/user/SSDexterno/umbrel
+```
