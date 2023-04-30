@@ -1,12 +1,41 @@
 # Os comandos abaixo vão instalar todas as dependências necessárias:
 
+Antes de instalar o umbrel é importante frizar que vc deve ter o SSD já formatada como um "pendrive"
+
+## Montar SSD como pasta
+No ubuntu server, no orange pi é necessário fazer algumas configurações para instalar o umbrell no SSD.
+
+- Desmonte o diretório padrão do "pendrive"(SSD) conectado:
+  
+```bash
+sudo umount /media/*
+```
+- Crie uma pasta no diretório /root
+  
+```bash
+mkdir nome-da-sua-pasta
+```
+- Veja o diretório que está localizado com o comando:
+
+```bash
+sudo fdisk -l
+```
+no meu caso é o /dev/sda
+
+- Monte	o SSD na pasta
+```bash
+sudo mount /dev/sda /nome-da-sua-pasta
+```
+Acesse sua pasta no /root usando o comando cd.
+
+pronto, agora essa pasta é o seu "pendrive"(SSD), e vc pode continuar com a istalação do umbrell, dentro dessa pasta.
+
+###  Instalações
+
 ```bash
 sudo apt-get install curl
 ```
 
-```bash
-sudo apt-get install fswatch jq rsync curl git
-```
 ```bash
 sudo apt install  ca-certificates  curl  gnupg  lsb-release
 ```
@@ -57,7 +86,7 @@ sudo ln -s /usr/bin/envsubst /usr/local/bin/envsubst
 ```bash
 curl -L https://github.com/getumbrel/umbrel/archive/v0.5.3.tar.gz | tar -xz --strip-components=1
 ```
-- Instalação direto no SSD:
+- Instalação em outros diretórios de outros SSD'S(+ de 1):
 ```bash
 curl -L https://github.com/getumbrel/umbrel/archive/v0.5.3.tar.gz | tar -xz --strip-components=1 -C /media/user/SSDexterno/umbrel
 ```
@@ -67,6 +96,7 @@ curl -L https://umbrel.sh | bash -s -- --install-path path/to/external/drive
 ```
 
 - Para iniciar o serviço:
+
 ```bash
 sudo ./scripts/start
 ```
@@ -78,6 +108,7 @@ ou
 
 http://orangepi5.local
 
+---
 
 - Para verificar se o seu SSD está conectado ao seu servidor Ubuntu, você pode executar o seguinte comando no terminal:
 ```bash
@@ -204,6 +235,10 @@ sudo systemctl restart umbrel
 - Algumas questões no forúm.
 https://bit.ly/40LTHCz
 
+- Artigo:
+
+https://bit.ly/3NqwXoM
+
 ---
 
 ## Permissões
@@ -253,7 +288,3 @@ df
 Ls -l
 //é pra m
 ```
-
-
-
-
