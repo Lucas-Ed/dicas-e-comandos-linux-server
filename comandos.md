@@ -437,3 +437,16 @@ free | grep Mem | awk '{print $3/$2 * 100.0}'
 ```bash
 sudo timedatectl set-timezone America/Sao_Paulo
 ```
+
+## Mover pasta de um diretório para outro.
+
+- Digite o comando "cd" seguido do diretório que contém a pasta que você deseja mover. Por exemplo, se a pasta que você deseja mover estiver em "/home/usuario/pasta", digite:
+```bash
+cd /home/usuario/pasta
+```
+- Digite o comando "mv" seguido do nome da pasta que você deseja mover e o diretório de destino para onde deseja mover a pasta. Por exemplo, se você deseja mover a pasta "docs" para o diretório "/home/usuario/backup", digite:
+
+```bash
+mv docs /home/usuario/backup
+```
+Isso irá mover a pasta "docs" para o diretório "/home/usuario/backup". Certifique-se de digitar o caminho completo do diretório de destino para onde deseja mover a pasta. Se o diretório de destino não existir, o comando "mv" irá renomear a pasta para o novo nome especificado.
