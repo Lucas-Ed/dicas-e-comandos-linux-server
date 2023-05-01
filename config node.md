@@ -1,4 +1,4 @@
-# Tutorial Node Umbrel No orange Pi5 com somente o armazenamento da blockchain no SSD
+# Tutorial Node Umbrel, no orange Pi5 com somente o armazenamento da blockchain no SSD.
 
 - instalar o "curl"
 
@@ -23,17 +23,17 @@ sudo curl -L https://umbrel.sh | bash
 ```
 ---
 
-- Verifiqueo disco, no meu caso é o /dev/sda1
+- Verifique o disco, no meu caso é o /dev/sda1
 ```bash
 sudo fdisk -l
 ```
 
-- MONTAR O DISCO DA BLOCKCHAIN,criar o local para a montagem
+- Montar o disco da blockchain,criar o local para a montagem
   
 ```bash
 sudo mkdir /mnt/blockchain
 ```
--Antes de configurar a montagem desmonte o local padrão do sistema
+- Antes de configurar a montagem desmonte o local padrão do sistema
 
 ```bash
 sudo umount /media/*
@@ -108,15 +108,18 @@ tmpfs /tmp tmpfs defaults,nosuid 0 0
 UUID=e60dadac-09bf-4ce5-a632-ec925c4b252a /mnt/blockchain  ext4 errors=remount-ro 0 2
 ```
 - Execute o umbrel
+
 ```bash
 sudo /root/umbrel/scripts/start
 ```
+
 - Abra no seu browser
+
 ```bash
 http://orangepi5.local ou https://IP
 ```
 - instalar a app "Bitcoin Node" do Umbrel e executar a app deixando ele começar a sincronizar, DEIXAR O BITCOIN COMEÇAR A MOSTRAR EVOLUÇÃO > 0,01%.
-- 
+
 - Editar o arquivo exports.sh
 ```bash
 nano /root/umbrel/app-data/bitcoin/exports.sh
