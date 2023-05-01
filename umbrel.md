@@ -327,3 +327,6 @@ Ls -l
 ```
 
 free | grep Mem | awk '{print $3/$2 * 100.0}'
+
+fstab
+UUID=7adb1433-141c-458d-b47a-a35be4e5a1a3 / ext4 defaults,noatime,commit=600,errors=remount-ro 0 1
