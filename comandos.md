@@ -450,3 +450,15 @@ cd /home/usuario/pasta
 mv docs /home/usuario/backup
 ```
 Isso irá mover a pasta "docs" para o diretório "/home/usuario/backup". Certifique-se de digitar o caminho completo do diretório de destino para onde deseja mover a pasta. Se o diretório de destino não existir, o comando "mv" irá renomear a pasta para o novo nome especificado.
+---
+## Remover uma pasta
+
+```bash
+sudo rm -r nome-da-pasta
+```
+
+## Listar discos
+
+```bash
+lsblk
+```

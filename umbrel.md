@@ -30,7 +30,7 @@ Acesse sua pasta no /root usando o comando cd.
 
 pronto, agora essa pasta é o seu "pendrive"(SSD), e vc pode continuar com a istalação do umbrell, dentro dessa pasta.
 
-## Configurar pra nunca demontar a unidade do SSD,
+## Configurar pra nunca demontar a unidade do SSD
 
 - Conecte o pendrive no Orange Pi 5 e aguarde até que ele seja montado automaticamente na pasta /media/username/nome-do-pendrive. Note que "username" é o nome do usuário atual e "nome-do-pendrive" é o nome dado ao pendrive pelo sistema.
 
@@ -42,7 +42,11 @@ sudo nano /etc/fstab
 - Adicione uma nova linha ao arquivo, indicando a localização do pendrive e as opções de montagem. Por exemplo, se o nome do pendrive é "USBdrive" e está montado em "/media/username/USBdrive", a linha seria:
 
 ```bash
-/dev/sda1 /ssd auto noatime,nofail,x-systemd.device-timeout=1 0 0
+//para remotar
+/dev/sda1 /ssd auto notime,nofail,x-systemd.device-timeout=1 0 0
+// para nunca remotar, sempre ficar montado
+/dev/sda1 /ssd auto notime,nofail 1 2
+
 ```
 - Note que o "/dev/sda1" pode variar dependendo do dispositivo que está sendo usado como pendrive.
 
@@ -313,3 +317,5 @@ df
 Ls -l
 //é pra m
 ```
+
+free | grep Mem | awk '{print $3/$2 * 100.0}'
