@@ -129,6 +129,14 @@ curl -L https://umbrel.sh | bash -s -- --install-path path/to/external/drive
 ```bash
 sudo ./scripts/start
 ```
+
+- Ou, para parar o umbrel quando necessário:
+  
+- Para iniciar o serviço:
+
+```bash
+sudo ./scripts/stop
+```
 - Acessar no browser:
 
 http://seu-ip/start
