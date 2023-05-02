@@ -92,6 +92,47 @@ sudo umount /media/*
 ```bash
 sudo mount /dev/sda1 /mnt/blockchain
 ```
+---
+
+- Dar permissão pro usuário root gravar na unidade de disco externa.
+
+Antes de adicionar um usuário a um grupo, você precisa ter certeza de que o grupo existe. Você pode verificar se o grupo existe usando o comando grep para procurar no arquivo "/etc/group":
+
+```bash
+grep bitcoin /etc/group
+```
+Se a saída do comando não mostrar nenhum resultado, você precisa criar um novo grupo com o nome "bitcoin". Você pode fazer isso usando o seguinte comando:
+
+```bash
+sudo groupadd bitcoin
+```
+- Depois de criar o grupo "bitcoin", você pode adicionar o usuário "root" a esse grupo usando o comando usermod novamente:
+
+```bash
+sudo usermod -aG bitcoin root
+```
+Lembre-se de que, para que as alterações tenham efeito, é necessário fazer logout e login novamente com o usuário "root" após adicionar o usuário a um novo grupo.
+
+- Para permitir a gravação na pasta /mnt/blockchain/bitcoin, você precisa garantir que a pasta tenha as permissões corretas e que o usuário que está executando o nó Bitcoin tenha permissão para escrever na pasta.
+
+Você pode definir as permissões corretas usando o comando chmod no terminal do seu sistema operacional. Para dar permissão de gravação a todos os usuários, você pode executar o seguinte comando:
+
+```bash
+sudo chmod -R 777 /mnt/blockchain/bitcoin
+```
+Isso irá conceder permissões de leitura, gravação e execução para todos os usuários na pasta /mnt/blockchain/bitcoin e em todos os seus subdiretórios.
+
+- Além disso, você precisa garantir que o usuário que está executando o nó Bitcoin tenha permissão para escrever na pasta. Isso pode ser feito adicionando o usuário ao grupo que tem permissão para escrever na pasta. Por exemplo, se o grupo que tem permissão para escrever na pasta for "bitcoin", você pode adicionar o usuário "bitcoinuser" a esse grupo executando o seguinte comando:
+
+```bash
+sudo usermod -aG bitcoin root
+
+```
+Isso adicionará o usuário "bitcoinuser" ao grupo "bitcoin", permitindo que ele tenha permissão para escrever na pasta /mnt/blockchain/bitcoin.
+
+Lembre-se de que conceder permissões excessivas a uma pasta pode apresentar riscos de segurança. Certifique-se de entender os riscos envolvidos e tome as medidas necessárias para proteger seus arquivos.
+
+---
 ## Configuração de montagem de unidade de disco ao ligar a máquina
 Para saver a unidade:
 ```bash

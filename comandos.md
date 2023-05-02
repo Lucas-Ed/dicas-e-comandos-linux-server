@@ -462,3 +462,9 @@ sudo rm -r nome-da-pasta
 ```bash
 lsblk
 ```
+
+- certificar-se de que a pasta exista:
+
+```bash
+sudo mkdir -p /mnt/blockchain/bitcoin
+```
