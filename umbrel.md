@@ -333,3 +333,9 @@ ou
 ```bash
 sudo tail -f ~/umbrel/app-data/bitcoin/data/bitcoin/debug.log
 ```
+
+
+- Apagar uma pasta
+```bash
+sudo rm -r nome-da-pasta
+```
