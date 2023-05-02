@@ -12,6 +12,37 @@ sudo timedatectl set-timezone America/Sao_Paulo
 passwd
 
 ```
+- Instalar o pacote de acesso remoto por aplicativo no celular:
+
+```bash
+apt-get install openssh-server
+```
+pronto agora só usar o app ConnectBot para logar, para logar vc usa o host: root@seu-ip:22,
+após isso coloque a senha e pronto.
+
+- Configurar para não haver deconexão via SSH
+
+você pode definir o valor da opção ClientAliveInterval no arquivo de configuração do servidor SSH (/etc/ssh/sshd_config) para um valor alto o suficiente para que a conexão não expire.
+
+Para fazer isso, abra o arquivo /etc/ssh/sshd_config em um editor de texto com privilégios de superusuário usando o comando:
+
+Isso é opicional:
+```bash
+ClientAliveInterval 300
+```
+Este exemplo define o intervalo para 300 segundos (5 minutos). Você pode aumentar esse valor se desejar.
+
+Em seguida, adicione a seguinte linha para garantir que o SSH não desconecte automaticamente uma conexão inativa:
+
+```bash
+ClientAliveCountMax 0
+```
+- Salve o arquivo e saia do editor. Em seguida, reinicie o serviço SSH para que as alterações entrem em vigor:
+```bash
+sudo systemctl restart ssh
+```
+A partir de agora, a conexão SSH não será desconectada automaticamente por inatividade.
+---
 - instalar o "curl"
 
 ```bash
@@ -33,6 +64,12 @@ sudo apt autoclean
 
 ```bash
 sudo curl -L https://umbrel.sh | bash
+```
+
+- Após a instalação o sistema dará o start no umbrel, é necessário para-lo:
+  
+```bash
+sudo /root/umbrel/scripts/stop
 ```
 ---
 
@@ -67,7 +104,7 @@ O arquivo /etc/fstab é responsável por montar automaticamente dispositivos de 
 ```bash
 sudo nano /etc/fstab
 ```
-- Adicione a seguinte linha ao final do arquivo, substituindo /dev/sda1 pelo identificador do dispositivo que você descobriu no primeiro passo e /mnt/usb pelo diretório que você criou no segundo passo:
+- Adicione a seguinte linha ao final do arquivo, substituindo /dev/sda1 pelo identificador do dispositivo que você descobriu no primeiro passo e /mnt/blockchain pelo diretório que você criou no segundo passo:
 
 ```bash
 /dev/sda1 /mnt/blockchain auto defaults 0 0
@@ -116,9 +153,10 @@ sudo reboot
 ```bash
 sudo nano /etc/systemd/system/systemd-fstab.service
 ```
-- Copia e colo o  o seguinte conteúdo no arquivo:
+- Copia e cole o seguinte conteúdo no arquivo:
 
 ```bash
+[Unit]
 [Unit]
 Description=Automount local filesystems
 
@@ -127,12 +165,13 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/mount -a
 ExecStop=/bin/umount -a
-TimeoutSec=30s
+TimeoutSec=5s
 StandardOutput=syslog
 StandardError=syslog
 
 [Install]
 WantedBy=multi-user.target
+
 
 ```
 
@@ -162,6 +201,51 @@ Se o comando sudo systemctl status systemd-fstab.service retornou "inativo", iss
 Se o serviço iniciar corretamente e o comando sudo systemctl status systemd-fstab.service mostrar que o serviço está ativo, tente reiniciar o sistema e verifique se a unidade de disco é montada automaticamente durante o processo de inicialização.
 
 Se o serviço ainda não estiver funcionando corretamente, você pode verificar os logs do systemd para obter mais informações sobre o problema. Use o comando sudo journalctl -u systemd-fstab.service para ver os logs do serviço. Isso pode ajudá-lo a identificar e corrigir quaisquer problemas que estejam impedindo o serviço de funcionar corretamente.
+
+## Agora configureo para manter montado o disco do SSD, quando houver inatividade e o equipamento estiver ligado
+
+ara configurar o sistema Ubuntu Server para evitar que uma unidade de disco seja desmontada por inatividade, você pode usar o utilitário "systemd" para criar um serviço que mantenha a unidade montada.
+
+Primeiro, verifique o nome do dispositivo da unidade de disco que deseja manter montada. Você pode usar o comando "lsblk" para listar os dispositivos de bloco e suas montagens atuais.
+
+Crie um novo arquivo de serviço do systemd em "/etc/systemd/system/" com um nome descritivo, como "keep-mounts.service". Por exemplo, use o comando "sudo nano /etc/systemd/system/keep-mounts.service" para criar o arquivo e abri-lo para edição.
+
+No arquivo do serviço, adicione o seguinte conteúdo:
+
+1° crie o arquivo de serviço do systemd em "/etc/systemd/system/" com um nome descritivo, como "keep-mounts.service", usando o editor de texto "nano" é o seguinte:
+
+```bash
+sudo nano /etc/systemd/system/keep-mounts.service
+```
+2° Esse comando abrirá o editor de texto "nano" e criará um novo arquivo de serviço com o nome "keep-mounts.service" em "/etc/systemd/system/". Em seguida, você pode inserir o conteúdo do arquivo do serviço e salvar e fechar o arquivo usando as opções do editor de texto.
+
+```bash
+[Unit]
+Description=Keep specified mounts from being unmounted by systemd
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/mount /dev/sda1
+ExecStop=/bin/umount /dev/sda1
+RemainAfterExit=yes
+
+[Install]
+WantedBy=local-fs.target
+
+
+```
+Substitua "/dev/sdXY" pelo nome do dispositivo da unidade de disco que deseja manter montada. Se a unidade estiver formatada em um sistema de arquivos específico, substitua "/bin/mount" pelo comando apropriado para montar o sistema de arquivos.
+
+Salve e feche o arquivo.
+
+Carregue o novo serviço do systemd com o comando "sudo systemctl daemon-reload".
+
+Ative o serviço para que seja iniciado automaticamente durante a inicialização com o comando "sudo systemctl enable keep-mounts.service".
+
+Inicie o serviço manualmente com o comando "sudo systemctl start keep-mounts.service".
+
+Agora, o serviço "keep-mounts" manterá a unidade de disco especificada montada e evitará que ela seja desmontada por inatividade, mesmo se o sistema estiver ligado.
 
 ---
 
@@ -273,7 +357,8 @@ rm -r ./umbrel/app-data/bitcoin/data/bitcoin/indexes/
 rm -r ./umbrel/app-data/bitcoin/data/bitcoin/chainstate/
 rm -r ./umbrel/app-data/bitcoin/data/bitcoin/blocks/
 ```
-- Evitar, que o servidor umbrel não se desligue:
+
+## Evitar, que o servidor umbrel não se desligue:
 
 ```bash
 sudo nano /etc/systemd/logind.conf
