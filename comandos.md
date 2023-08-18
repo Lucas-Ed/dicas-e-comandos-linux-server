@@ -3,7 +3,7 @@
 - Transferir pasta de arquivo local para servidor :
 
 ```bash
-scp -r <nome-da-pasta/> user@192.168.0.0:/home/pasta-padrao
+scp -r <nome-da-pasta/> usuario@192.168.0.0:/home/pasta-padrao
 ```
 
 - Primeiro acesso via PuTTY:
