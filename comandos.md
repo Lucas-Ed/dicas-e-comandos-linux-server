@@ -1,5 +1,11 @@
 # Dicas e comandos Linux server
 
+- Transferir pasta de arquivo local para servidor :
+
+```bash
+scp -r <nome-da-pasta/> orangepi@192.168.0.0:/home/pasta-padrao
+```
+
 - Primeiro acesso via PuTTY:
 
 ```bash
