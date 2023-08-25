@@ -1,11 +1,15 @@
 # Dicas e comandos Linux server
 
-- Transferir pasta de arquivo local para servidor :
+- Transferir pasta de arquivo local --> servidor:
 
 ```bash
 scp -r <nome-da-pasta/> usuario@192.168.0.0:/home/pasta-padrao
 ```
+- Transferir pasta de arquivo do servidor --> local:
 
+```bash
+scp -r seu-usuário@192.168.0.17:/home/orangepi/<sua-pasta /C:/Users/Lucas/OneDrive/Área de Trabalho
+```
 - Primeiro acesso via PuTTY:
 
 ```bash
